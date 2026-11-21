@@ -1,19 +1,33 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { siteUrl } from './site-url.mjs';
+
 const html = await readFile('dist/index.html', 'utf8');
-const origin = 'https://m7md-3bdo.github.io/abo_esmail/';
-// Real entry files let GitHub Pages serve direct package links and refreshes.
-const routes = [['basic','Basic'],['standard','Standard'],['premium','Premium'],['training','Training Plan']];
-for (const [slug, name] of routes) {
-  const route = `packages/${slug}`;
+const routes = [
+  ['basic', 'Basic', 'تدريب وتغذية مخصصان مع متابعة أسبوعية لمدة ٣ شهور.'],
+  ['standard', 'Standard', 'تدريب وتغذية ومتابعة أسبوعية ومراجعة فيديو أداء مرة في الأسبوع لمدة ٣ شهور.'],
+  ['premium', 'Premium', 'تدريب وتغذية ومتابعة من مرتين إلى ثلاث أسبوعيًا مع أولوية الرد ومكالمات فيديو لمدة ٣ شهور.'],
+  ['training', 'Training Plan', 'جدول تدريبي مخصص بسعر ١٠٠ جنيه، شراء لمرة واحدة بدون تغذية أو متابعة.'],
+];
+
+// Actual HTML entry files allow direct package links and refreshes on Pages.
+for (const [slug, name, description] of routes) {
+  const route = `packages/${slug}/`;
+  const title = `${name} | AboEsmail Coaching`;
   await mkdir(`dist/${route}`, { recursive: true });
+
   const content = html
-    .replace(/<title>.*?<\/title>/, `<title>${name} | AboEsmail Coaching</title>`)
-    .replace(/(<meta property="og:title" content=")[^"]*/, `$1${name} | AboEsmail Coaching`)
-    .replace(/(<meta name="twitter:title" content=")[^"]*/, `$1${name} | AboEsmail Coaching`)
-    .replace(`rel="canonical" href="${origin}"`, `rel="canonical" href="${origin}${route}/"`)
-    .replace(`property="og:url" content="${origin}"`, `property="og:url" content="${origin}${route}/"`);
-  await writeFile(`dist/${route}/index.html`, content);
+    .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
+    .replace(/(<meta property="og:title" content=")[^"]*/, `$1${title}`)
+    .replace(/(<meta name="twitter:title" content=")[^"]*/, `$1${title}`)
+    .replace(/(<meta name="description" content=")[^"]*/, `$1${description}`)
+    .replace(/(<meta property="og:description" content=")[^"]*/, `$1${description}`)
+    .replace(/(<meta name="twitter:description" content=")[^"]*/, `$1${description}`)
+    .replace(`rel="canonical" href="${siteUrl.href}"`, `rel="canonical" href="${new URL(route, siteUrl).href}"`)
+    .replace(`property="og:url" content="${siteUrl.href}"`, `property="og:url" content="${new URL(route, siteUrl).href}"`);
+
+  await writeFile(`dist/${route}index.html`, content);
 }
+
 await writeFile('dist/404.html', html);
 await writeFile('dist/.nojekyll', '');
-console.log('Created direct-entry pages for all four packages.');
+console.log(`Created package entry pages for ${siteUrl.href}`);

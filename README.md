@@ -1,20 +1,41 @@
 # AboEsmail Coaching
 
-Bilingual Arabic/English React + Vite site configured for the `m7md-3bdo/abo_esmail` GitHub Pages project.
+Arabic/English promotional website built with React, Vite, React Router and Three.js.
+
+## Local development
+
+Use Node.js 22 or newer.
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
-Build: `npm run build`. Preview: `npm run preview`.
+Open the displayed URL under `/AboEsmail-Coaching/`.
 
-Set repository Settings → Pages → Source to GitHub Actions. The included `.github/workflows/deploy.yml` publishes pushes to `main`.
+```sh
+npm run build
+npm run preview
+```
 
-See `START_HERE_AR.md` for Arabic upload instructions. Upload the contents of this project to the repository root, including `.github`. Do not upload node_modules or dist.
+## Deployment
 
-`vite.config.js` sets `/abo_esmail/`; React Router and image URLs use the Vite base. Post-build entry pages support direct links and refreshes for each package. The source remains client-side routed without full page reloads on internal navigation.
+Target: https://aboesmail20.github.io/AboEsmail-Coaching/
 
-Source: src/main.jsx, src/style.css, src/Dumbbell.jsx. Assets: public/assets.
+Upload source to the repository root, including `.github/workflows/deploy.yml`.
+Set repository Settings → Pages → Source to GitHub Actions.
+The workflow reads the actual Pages URL before building, so repository or domain changes are reflected in the next deployment.
 
-The 3D object requires WebGL; an interactive SVG/CSS fallback is included. Social preview display is controlled by each platform and needs the deployed public URL. No deployment has been performed by downloading this ZIP.
+`site.config.json` contains the single fallback URL for local builds. `SITE_URL` overrides it for other hosting targets.
+Vite derives its base path from that URL and injects absolute social metadata. React Router and asset paths use the same Vite base.
+The post-build script creates package entry files with individual metadata, plus `404.html` and `.nojekyll`.
+
+## Source
+
+- `src/main.jsx`: bilingual content, navigation and WhatsApp booking.
+- `src/style.css`: styling and responsive layouts.
+- `src/Dumbbell.jsx`: interactive Three.js hero with SVG/CSS fallback.
+- `public/assets`: coach photo, logo and social sharing image.
+- `scripts/site-url.mjs`: shared deployment URL.
+
+See `START_HERE_AR.md` for Arabic upload and operating instructions.

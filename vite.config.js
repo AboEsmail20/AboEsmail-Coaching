@@ -1,2 +1,2 @@
 import { defineConfig } from 'vite';
-export default defineConfig({ base: '/abo_esmail/' });
+export default defineConfig({ base: '/AboEsmail-Coaching/',});

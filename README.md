@@ -39,3 +39,25 @@ The post-build script creates package entry files with individual metadata, plus
 - `scripts/site-url.mjs`: shared deployment URL.
 
 See `START_HERE_AR.md` for Arabic upload and operating instructions.
+
+## Launch offer (November 2026)
+
+Basic, Standard and Premium keep their existing full-payment and installment prices.
+During the launch window, each coaching package includes 3 months + 1 free month.
+The EGP 100 standalone training plan does not participate.
+
+- Starts: Friday 27 November 2026, 18:30 Africa/Cairo (16:30 UTC).
+- Ends: Sunday 29 November 2026, 18:30 Africa/Cairo (16:30 UTC).
+- Configuration: `launchOffer.startsAt` and `launchOffer.durationHours` in `site.config.json`.
+- End is calculated once from the configured start plus 48 elapsed hours, never from a visitor's first visit.
+- Before start: scheduled announcement only. While active: countdown, bonus, package duration text and booking-message offer. At expiry: ordinary three-month content returns automatically.
+- The subscription still starts when the program is delivered. Three installments remain three installments.
+- Footer credit: Developed by Mohamed abdullwahab.
+
+`src/launchOffer.mjs` holds the pure schedule, eligibility and WhatsApp message logic.
+`src/LaunchOffer.jsx` provides the clock, banner, bonus label and FAQ. The clock resyncs on focus and visibility changes; there is no per-visitor storage.
+This static promotional site uses the visitor device clock, not an authoritative payment server; Ahmed confirms eligibility and payment on WhatsApp.
+Social metadata stays evergreen so cached social cards do not promise an expired bonus.
+
+Run `npm test` for schedule boundaries, eligibility, WhatsApp messages and rendered home/package pages in both languages before, during and after the offer.
+After upload, confirm the deployment succeeds and check the live mobile layout and links. Local tests do not confirm a production deployment.

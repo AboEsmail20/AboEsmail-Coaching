@@ -1,3 +1,7 @@
 {
-  "siteUrl": "https://aboesmail20.github.io/AboEsmail-Coaching/"
+  "siteUrl": "https://aboesmail20.github.io/AboEsmail-Coaching/",
+  "launchOffer": {
+    "startsAt": "2026-11-27T18:30:00+02:00",
+    "durationHours": 48
+  }
 }
